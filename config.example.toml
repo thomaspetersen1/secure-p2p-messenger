@@ -1,0 +1,18 @@
+# Copy this file to `config.toml` and adjust per machine.
+# `config.toml` is git-ignored so each machine can differ.
+
+[server]
+# Bind 0.0.0.0 so the peer machine can reach /ws/peer (LAN / Tailscale).
+host = "0.0.0.0"
+port = 8000
+
+[peer]
+# The other machine's backend, e.g. "192.168.1.42:8000" or "machine-b:8000".
+# Leave blank to wait for the peer to dial you instead of initiating.
+address = ""
+
+[crypto]
+# Default cipher shown in the UI: "AES" (128-bit) or "DES" (56-bit).
+default_cipher = "AES"
+# PBKDF2 iteration count — must be identical on both machines.
+pbkdf2_iterations = 200000

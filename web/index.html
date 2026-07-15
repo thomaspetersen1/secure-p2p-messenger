@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure P2P Messenger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-name">Secure&nbsp;P2P</span>
+      <span class="tag" id="nodeTag">NODE</span>
+    </div>
+    <div class="status">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Disconnected</span>
+    </div>
+  </header>
+
+  <!-- ================= Connection screen ================= -->
+  <section id="connectView" class="view connect-view">
+    <form id="connectForm" class="card">
+      <h1>Establish Secure Session</h1>
+      <p class="subtitle">Both peers must enter the same passphrase and cipher.</p>
+
+      <label>Passphrase
+        <input type="password" id="passphrase" autocomplete="off" placeholder="shared secret" required />
+      </label>
+
+      <label>Cipher
+        <select id="cipher">
+          <option value="AES">AES-128 (128-bit)</option>
+          <option value="DES">DES (56-bit)</option>
+        </select>
+      </label>
+
+      <label>Peer address <span class="hint">(leave blank to wait for a dial)</span>
+        <input type="text" id="peerAddress" placeholder="192.168.1.42:8000 or machine-b:8000" />
+      </label>
+
+      <button type="submit" class="btn-primary" id="connectBtn">Connect</button>
+
+      <div class="fingerprint hidden" id="fingerprintRow">
+        <span class="label">Key fingerprint</span>
+        <span class="mono" id="fingerprint">--------</span>
+      </div>
+      <p class="error hidden" id="connectError"></p>
+    </form>
+  </section>
+
+  <!-- ================= Chat view ================= -->
+  <section id="chatView" class="view chat-view hidden">
+    <div class="chat-header">
+      <div class="peer">
+        <div class="peer-avatar">P</div>
+        <div>
+          <h2 id="peerName">Secure Peer</h2>
+          <p class="mono meta" id="sessionMeta">Cipher: — | Key: —</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="message-list" id="messageList">
+      <div class="divider"><span id="sessionBanner">E2E session established</span></div>
+    </div>
+
+    <div class="input-bar">
+      <div class="attach">
+        <button type="button" id="imageBtn" title="Attach image" class="icon-btn">🖼</button>
+        <button type="button" id="fileBtn" title="Attach file" class="icon-btn">📎</button>
+        <input type="file" id="imageInput" accept="image/*" hidden />
+        <input type="file" id="fileInput" hidden />
+      </div>
+      <textarea id="messageInput" rows="1" placeholder="Write encrypted message…"></textarea>
+      <div class="send-group">
+        <button type="button" id="recordBtn" title="Record voice" class="icon-btn rec">🎙</button>
+        <button type="button" id="sendBtn" class="btn-primary send">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>End-to-End Encrypted · Peer-to-Peer</span>
+    <a href="/docs/architecture.md">Architecture</a>
+  </footer>
+
+  <!-- Template for a message bubble; cloned by app.js -->
+  <template id="bubbleTemplate">
+    <div class="msg">
+      <div class="bubble">
+        <div class="content"></div>
+        <button type="button" class="cipher-toggle mono">🔑 Show ciphertext</button>
+        <div class="ciphertext mono hidden"></div>
+      </div>
+      <span class="timestamp mono"></span>
+    </div>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>
